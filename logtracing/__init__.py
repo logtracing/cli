@@ -3,11 +3,12 @@ __version__ = "0.0.1"
 
 (
     SUCCESS,
-    DB_READ_ERROR,
-    DB_WRITE_ERROR,
-) = range(3)
+    CONFIG_DIR_ERROR,
+    CONFIG_FILE_ERROR,
+    ERROR,
+) = range(4)
 
 ERRORS = {
-    DB_READ_ERROR: "database read error",
-    DB_WRITE_ERROR: "database write error",
+    CONFIG_DIR_ERROR: "config directory error",
+    CONFIG_FILE_ERROR: "config file error",
 }
