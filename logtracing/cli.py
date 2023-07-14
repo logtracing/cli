@@ -1,19 +1,20 @@
+import typer
 from typing import Optional
 from rich import print
-import typer
 from logtracing import (
     SUCCESS, ERRORS, __app_name__, __version__, config
 )
 
 app = typer.Typer()
+config_app =typer.Typer()
 
 def _version_callback(value: bool):
     if value:
-        typer.echo(f"{__app_name__} v{__version__}")
+        typer.echo(f"{__app_name__} v{__version__}.")
         raise typer.Exit()
 
-@app.command()
-def init(
+@config_app.command(help="Create the configuration file.")
+def create(
     db_user: str = typer.Option(
         ...,
         "--db-user",
@@ -61,7 +62,11 @@ def init(
     else:
         print("\n[red]The config file already exists. Use the option --force or -f to overwrite it.[/red]\n")
 
-@app.command()
+@config_app.command(help="Show your current configuration.")
+def show() -> None:
+    config.print_config()
+
+@app.callback()
 def main(
     version: Optional[bool] = typer.Option(
         None,
@@ -73,3 +78,5 @@ def main(
     )
     ) -> None:
     return
+
+app.add_typer(config_app, name="config")

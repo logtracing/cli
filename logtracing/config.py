@@ -1,5 +1,6 @@
 import configparser
 from pathlib import Path
+from rich import print
 from logtracing import (
     SUCCESS, CONFIG_DIR_ERROR, CONFIG_FILE_ERROR
 )
@@ -22,6 +23,15 @@ def init(db_config: dict[str, str]) -> int:
 
 def exists() -> bool:
     return CONFIG_FILE_PATH.exists()
+
+def print_config() -> None:
+    config_parser = configparser.ConfigParser()
+    config_parser.read(CONFIG_FILE_PATH)
+
+    for section in config_parser.sections():
+        print(f"[green][{section}][/green]")
+        for option in config_parser.options(section):
+            print(f"{option} = {config_parser.get(section, option)}")
 
 def _init_config_file() -> int:
     try:
