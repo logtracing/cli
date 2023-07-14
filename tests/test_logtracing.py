@@ -1,5 +1,7 @@
 from typer.testing import CliRunner
-from logtracing import __app_name__, __version__, cli
+
+from logtracing import __app_name__, __version__
+from logtracing.cli import cli
 
 runner = CliRunner()
 

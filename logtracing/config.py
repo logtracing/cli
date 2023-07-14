@@ -1,6 +1,8 @@
 import configparser
 from pathlib import Path
+
 from rich import print
+
 from logtracing import (
     SUCCESS, CONFIG_DIR_ERROR, CONFIG_FILE_ERROR
 )

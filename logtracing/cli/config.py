@@ -1,17 +1,11 @@
-import typer
 from typing import Optional
+
+import typer
 from rich import print
-from logtracing import (
-    SUCCESS, ERRORS, __app_name__, __version__, config
-)
 
-app = typer.Typer()
-config_app =typer.Typer()
+from logtracing import SUCCESS, ERRORS, config
 
-def _version_callback(value: bool):
-    if value:
-        typer.echo(f"{__app_name__} v{__version__}.")
-        raise typer.Exit()
+config_app = typer.Typer()
 
 @config_app.command(help="Create the configuration file.")
 def create(
@@ -65,18 +59,3 @@ def create(
 @config_app.command(help="Show your current configuration.")
 def show() -> None:
     config.print_config()
-
-@app.callback()
-def main(
-    version: Optional[bool] = typer.Option(
-        None,
-        "--version",
-        "-v",
-        help="Show the LogTracing CLI App version",
-        callback=_version_callback,
-        is_eager=True
-    )
-    ) -> None:
-    return
-
-app.add_typer(config_app, name="config")

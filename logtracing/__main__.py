@@ -1,4 +1,4 @@
-from logtracing import cli
+from logtracing.cli import cli
 
 def main():
     cli.app()
