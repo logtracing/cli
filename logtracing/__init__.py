@@ -1,4 +1,4 @@
-__app_name__ = "logtracing"
+__app_name__ = "LogTracing CLI App"
 __version__ = "0.0.1"
 
 (
