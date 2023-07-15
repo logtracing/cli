@@ -60,14 +60,3 @@ class LogTracingDB:
                 return logs
         except DBError as e:
             print(e)
-
-if __name__ == '__main__':
-    db = LogTracingDB(
-        user='root',
-        password='p4ssw0rd',
-        host='127.0.0.1',
-        port=3308,
-        database='dev_logtracing'
-    )
-
-    print(db.get_logs(flow='More Logs Usage'))

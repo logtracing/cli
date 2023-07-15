@@ -3,7 +3,8 @@ from typing import Optional
 import typer
 from rich import print
 
-from logtracing import SUCCESS, ERRORS, config
+from logtracing import config
+from logtracing.database import LogTracingDB
 
 log_app = typer.Typer()
 
@@ -15,4 +16,4 @@ def show(
         '-f',
     )
     ) -> None:
-    print('List of logs')
+    print('Logs...')
