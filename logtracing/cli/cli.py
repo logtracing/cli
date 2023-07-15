@@ -4,6 +4,7 @@ import typer
 
 from logtracing import __app_name__, __version__
 from logtracing.cli.config import config_app
+from logtracing.cli.log import log_app
 
 app = typer.Typer()
 
@@ -26,4 +27,5 @@ def main(
     return
 
 # commands
-app.add_typer(config_app, name="config")
+app.add_typer(config_app, name="config", help="Set up the required configuration for the CLI app.")
+app.add_typer(log_app, name="log", help="Handle the logs stored via the LogTracing packages.")
