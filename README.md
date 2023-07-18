@@ -26,6 +26,11 @@ Install dependencies:
 pip install -r requirements.txt
 ```
 
+You can run the tests by executing the next command:
+```bash
+python -m pytest tests/
+```
+
 ## :rocket: Usage
 ### `config` command
 #### Setting up your database (first time)
