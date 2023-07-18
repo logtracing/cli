@@ -53,6 +53,7 @@ class LogTracingDB:
                     FROM logs l
                     LEFT JOIN logGroups lg ON lg.id = l.logGroupId
                     WHERE l.flow = '{flow}'
+                    ORDER BY l.createdAt DESC
                     LIMIT {limit}
                 '''
 
