@@ -45,14 +45,19 @@ class LogTracingDB:
             print(e)
 
     @db_connect
-    def get_logs(self, flow: str, limit: int, connection: MySQLConnection) -> List[Log]:
+    def get_logs(self, flow: str, limit: int, filter: str, connection: MySQLConnection) -> List[Log]:
         try:
             with connection.cursor() as cursor:
+                where_query = f"WHERE l.flow = '{flow}'"
+
+                if filter:
+                    where_query = f"{where_query} AND l.content LIKE '%{filter}%'"
+
                 query = f'''
                     SELECT l.level, l.flow, l.content, l.createdAt as created_at, lg.name as group_name
                     FROM logs l
                     LEFT JOIN logGroups lg ON lg.id = l.logGroupId
-                    WHERE l.flow = '{flow}'
+                    {where_query}
                     ORDER BY l.createdAt DESC
                     LIMIT {limit}
                 '''

@@ -21,10 +21,15 @@ def show(
         50,
         '--limit',
         '-l'
+    ),
+    filter: str = typer.Option(
+        None,
+        '--filter',
+        '-f'
     )
     ) -> None:
     logtracing_db = LogTracingDB()
-    logs = logtracing_db.get_logs(flow=flow, limit=limit)
+    logs = logtracing_db.get_logs(flow=flow, limit=limit, filter=filter)
 
     if not logs:
         print('No logs found.')

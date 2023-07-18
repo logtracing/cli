@@ -59,6 +59,7 @@ python -m logtracing log show --flow=<FLOW>
 
 **Options:**
 - `--limit, -l`: Limit the log list.
+- `--filter, -f`: Filter results by text in `content`.
 
 ### `--help` option
 You can use the `help` option for each command and subcommand
