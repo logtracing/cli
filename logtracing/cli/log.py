@@ -3,7 +3,6 @@ from typing import Optional
 import typer
 from rich import print
 
-from logtracing import config
 from logtracing.database import LogTracingDB
 
 log_app = typer.Typer()
@@ -14,6 +13,15 @@ def show(
         ...,
         '--flow',
         '-f',
+    ),
+    limit: int = typer.Option(
+        50,
+        '--limit',
+        '-l'
     )
     ) -> None:
-    print('Logs...')
+    logtracing_db = LogTracingDB()
+    logs = logtracing_db.get_logs(flow='More Logs Usage', limit=limit)
+
+    for log in logs:
+        print(log.text())

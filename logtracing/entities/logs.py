@@ -32,10 +32,9 @@ class Log:
         return f"[{color}][{self.level.ljust(5)}][/{color}]"
 
     def _get_formatted_date(self):
-        color = self._get_color()
         formatted_date = self.created_at.strftime("%d-%m-%Y %H:%M:%S")
 
-        return f"[{color}][{formatted_date}][/{color}]"
+        return f"[white][{formatted_date}][/white]"
 
     def text(self):
         return f"{self._get_formatted_level()}{self._get_formatted_date()}: {self.content}"

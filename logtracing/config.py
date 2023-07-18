@@ -35,6 +35,12 @@ def print_config() -> None:
         for option in config_parser.options(section):
             print(f"{option} = {config_parser.get(section, option)}")
 
+def get_database_config() -> dict[str, str]:
+    config_parser = configparser.ConfigParser()
+    config_parser.read(CONFIG_FILE_PATH)
+
+    return config_parser["Database"]
+
 def _init_config_file() -> int:
     try:
         CONFIG_FOLDER_PATH.mkdir(exist_ok=True)

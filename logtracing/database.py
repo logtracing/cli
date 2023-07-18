@@ -2,7 +2,8 @@ from typing import List
 from mysql.connector import connect, Error as DBError
 from mysql.connector.connection import MySQLConnection
 
-from entities.logs import Log
+from logtracing import config
+from logtracing.entities.logs import Log
 
 def db_connect(func):
     def wrapper(self, *args, **kwargs):
@@ -21,12 +22,14 @@ def db_connect(func):
     return wrapper
 
 class LogTracingDB:
-    def __init__(self, user: str, password: str, host: str, port: int, database: str) -> None:
-        self.user = user
-        self.password = password
-        self.host = host
-        self.port = port
-        self.database = database
+    def __init__(self) -> None:
+        database_config = config.get_database_config()
+
+        self.user = database_config['user']
+        self.password = database_config['pass']
+        self.host = database_config['host']
+        self.port = database_config['port']
+        self.database = database_config['db_name']
 
     @db_connect
     def total_of_logs(self, connection: MySQLConnection) -> int:
@@ -42,7 +45,7 @@ class LogTracingDB:
             print(e)
 
     @db_connect
-    def get_logs(self, flow: str, connection: MySQLConnection) -> List[Log]:
+    def get_logs(self, flow: str, limit: int, connection: MySQLConnection) -> List[Log]:
         try:
             with connection.cursor() as cursor:
                 query = f'''
@@ -50,13 +53,14 @@ class LogTracingDB:
                     FROM dev_logtracing.logs l
                     LEFT JOIN dev_logtracing.logGroups lg ON lg.id = l.logGroupId
                     WHERE l.flow = '{flow}'
+                    LIMIT {limit}
                 '''
 
                 cursor.execute(query)
                 result = cursor.fetchall()
 
                 logs = [Log(*log) for log in result]
-                print(logs[0].text())
+
                 return logs
         except DBError as e:
             print(e)
