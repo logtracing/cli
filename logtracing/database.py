@@ -50,8 +50,8 @@ class LogTracingDB:
             with connection.cursor() as cursor:
                 query = f'''
                     SELECT l.level, l.flow, l.content, l.createdAt as created_at, lg.name as group_name
-                    FROM dev_logtracing.logs l
-                    LEFT JOIN dev_logtracing.logGroups lg ON lg.id = l.logGroupId
+                    FROM logs l
+                    LEFT JOIN logGroups lg ON lg.id = l.logGroupId
                     WHERE l.flow = '{flow}'
                     LIMIT {limit}
                 '''

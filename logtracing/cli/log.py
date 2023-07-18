@@ -21,7 +21,11 @@ def show(
     )
     ) -> None:
     logtracing_db = LogTracingDB()
-    logs = logtracing_db.get_logs(flow='More Logs Usage', limit=limit)
+    logs = logtracing_db.get_logs(flow=flow, limit=limit)
+
+    if not logs:
+        print('No logs found.')
+        raise typer.Exit()
 
     for log in logs:
         print(log.text())
