@@ -1,11 +1,14 @@
-from typing import Optional
+import pydoc
 
 import typer
 from rich import print
+from rich.console import Console
+from rich.__main__ import make_test_card
 
 from logtracing.database import LogTracingDB
 
 log_app = typer.Typer()
+console = Console()
 
 @log_app.command(help="Print a list of logs.")
 def show(
@@ -27,5 +30,8 @@ def show(
         print('No logs found.')
         raise typer.Exit()
 
-    for log in logs:
-        print(log.text())
+    output = '\n'.join(map(lambda log: log.text(), logs))
+
+    with console.pager(styles=True):
+        console.print(output)
+
