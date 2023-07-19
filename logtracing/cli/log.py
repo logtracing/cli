@@ -1,11 +1,11 @@
-import pydoc
-
 import typer
 from rich import print
 from rich.console import Console
 from rich.__main__ import make_test_card
+from typing_extensions import Annotated
 
 from logtracing.database import LogTracingDB
+from logtracing.entities.logs import LogLevel
 
 log_app = typer.Typer()
 console = Console()
@@ -26,10 +26,20 @@ def show(
         None,
         '--filter',
         '-f'
+    ),
+    transport: LogLevel = typer.Option(
+        None,
+        '--transport',
+        '-t'
     )
     ) -> None:
     logtracing_db = LogTracingDB()
-    logs = logtracing_db.get_logs(flow=flow, limit=limit, filter=filter)
+    logs = logtracing_db.get_logs(
+        flow=flow,
+        limit=limit,
+        filter=filter,
+        transport=transport
+    )
 
     if not logs:
         print('No logs found.')

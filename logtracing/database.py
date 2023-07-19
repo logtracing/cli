@@ -3,7 +3,7 @@ from mysql.connector import connect, Error as DBError
 from mysql.connector.connection import MySQLConnection
 
 from logtracing import config
-from logtracing.entities.logs import Log
+from logtracing.entities.logs import Log, LogLevel
 
 def db_connect(func):
     def wrapper(self, *args, **kwargs):
@@ -45,13 +45,16 @@ class LogTracingDB:
             print(e)
 
     @db_connect
-    def get_logs(self, flow: str, limit: int, filter: str, connection: MySQLConnection) -> List[Log]:
+    def get_logs(self, flow: str, limit: int, filter: str, transport: LogLevel, connection: MySQLConnection) -> List[Log]:
         try:
             with connection.cursor() as cursor:
                 where_query = f"WHERE l.flow = '{flow}'"
 
                 if filter:
                     where_query = f"{where_query} AND l.content LIKE '%{filter}%'"
+
+                if transport:
+                    where_query = f"{where_query} AND l.level = '{transport.value}'"
 
                 query = f'''
                     SELECT l.level, l.flow, l.content, l.createdAt as created_at, lg.name as group_name

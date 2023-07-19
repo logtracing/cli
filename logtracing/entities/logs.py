@@ -1,5 +1,6 @@
 from datetime import datetime
 from typing import Optional
+from enum import Enum
 
 class Log:
     def __init__(
@@ -38,3 +39,11 @@ class Log:
 
     def text(self):
         return f"{self._get_formatted_level()}{self._get_formatted_date()}: {self.content}"
+
+class LogLevel(str, Enum):
+    trace = "TRACE"
+    info = "INFO"
+    debug = "DEBUG"
+    warn = "WARN"
+    error = "ERROR"
+    fatal = "FATAL"
